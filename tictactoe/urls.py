@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apipy.views import recibe
+from tictactoe.views import recibe
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('apipy/<x0>/<x1>/<x2>/<x3>/<x4>/<x5>/<x6>/<x7>/<x8>',recibe),
+    path('tictactoe/<x0>/<x1>/<x2>/<x3>/<x4>/<x5>/<x6>/<x7>/<x8>',recibe),
 
 ]
