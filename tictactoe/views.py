@@ -24,7 +24,10 @@ def recibe(request,x0,x1,x2,x3,x4,x5,x6,x7,x8):
   modelo_cargado.compile(loss='mean_squared_error', optimizer= 'adam', metrics = 'binary_accuracy')
   minimo = 1.0
   soluciones = []
+  cantidad  = 0
   for i in range(9):
+    if(X[i]==1):
+      cantidad = cantidad+1
     if(X[i]==2):
       Xcopy = X[:]
       Xcopy[i] = 0
@@ -36,6 +39,28 @@ def recibe(request,x0,x1,x2,x3,x4,x5,x6,x7,x8):
         soluciones.append(i)
       elif(resultado==minimo):
         soluciones.append(i)
+  ######  
+  if(minimo>0.5 and cantidad>1):
+    for i in range(9):
+      if(X[i]==0):
+        Xop = 1
+      elif(X[i]==1):
+        Xop = 0
+      else:
+        Xop[i] = 2
+    for i in range(9):
+      if(X[i]==2):
+        Xcopy = Xop[:]
+        Xcopy[i] = 0
+        result = modelo_cargado.predict([Xcopy])
+        resultado = float(result[0][0])
+        if(resultado<minimo):
+          minimo = resultado
+          soluciones = []
+          soluciones.append(i)
+        elif(resultado==minimo):
+          soluciones.append(i)
+  ######
   if(len(soluciones)==1):
     return HttpResponse(soluciones)
   elif(len(soluciones)>1):
